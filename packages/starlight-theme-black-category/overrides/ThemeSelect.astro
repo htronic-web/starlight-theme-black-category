@@ -61,7 +61,11 @@
 {/* Inlined to avoid FOUC. Uses global scope from `ThemeProvider.astro` */}
 <script is:inline>
   // eslint-disable-next-line no-undef
-  StarlightThemeProvider.updatePickers()
+  document
+    .querySelectorAll<HTMLSelectElement>('starlight-theme-select select')
+    .forEach((picker) => {
+      picker.value = theme;
+    });
 </script>
 
 <script>
@@ -94,7 +98,11 @@
 
   /** Update select menu UI, document theme, and local storage state. */
   function onThemeChange(theme: Theme): void {
-    StarlightThemeProvider.updatePickers(theme)
+    document
+      .querySelectorAll<HTMLSelectElement>('starlight-theme-select select')
+      .forEach((picker) => {
+        picker.value = theme;
+      });
     document.documentElement.dataset.theme = theme === 'auto' ? getPreferredColorScheme() : theme
     storeTheme(theme)
   }
